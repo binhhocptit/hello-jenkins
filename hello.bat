@@ -1,4 +1,3 @@
 @echo off
-echo ===== JENKINS BUILD SUCCESS =====
-echo Time: %date% %time%
-pause
+echo ===== BUILD FROM JENKINS =====
+echo %date% %time%
