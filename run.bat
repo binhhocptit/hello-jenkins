@@ -7,9 +7,9 @@ echo Killing old Node...
 taskkill /F /IM node.exe >nul 2>&1
 
 echo Starting server...
-start "" cmd /c node app.js
+start /B node app.js > app.log 2>&1
 
-timeout /t 3 >nul
+timeout /t 2 >nul
 
-echo App started! 
-
+echo App started!
+exit /b 0
