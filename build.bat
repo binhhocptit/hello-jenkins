@@ -1,3 +1,3 @@
 @echo off
-echo ===== BUILD FROM JENKINS =====
+echo ===== BUILD LAN 2 HEHE FROM JENKINS =====
 echo %date% %time%
