@@ -11,4 +11,5 @@ start "" cmd /c node app.js
 
 timeout /t 3 >nul
 
-echo App started!
+echo App started! 
+
