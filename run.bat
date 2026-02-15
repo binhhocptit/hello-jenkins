@@ -1,15 +1,13 @@
 @echo off
 echo ===== RUN APP =====
 
-cd /d %~dp0
+echo Stop old app...
+pm2 delete jenkins-app >nul 2>&1
 
-echo Killing old Node...
-taskkill /F /IM node.exe >nul 2>&1
+echo Start new app...
+pm2 start app.js --name jenkins-app
 
-echo Starting server...
-start /B node app.js > app.log 2>&1
+pm2 save
 
-timeout /t 2 >nul
-
-echo App started!
+echo App deployed!
 exit /b 0
