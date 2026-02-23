@@ -1,34 +1,20 @@
 pipeline {
     agent any 
     
-    parameters {
-        choice(name: 'MOI_TRUONG', choices: ['DEV', 'PRODUCTION'], description: 'Bạn muốn triển khai lên đâu?')
+    // Khai báo môi trường: Lấy đồ trong két sắt ra
+    environment {
+        // Lấy secret có ID là 'KHOA_BIMAT_CUA_TOI' và gán vào biến 'PASSWORD_DB'
+        PASSWORD_DB = credentials('KHOA_BIMAT_CUA_TOI')
     }
     
     stages {
-        stage('Build & Test') {
+        stage('Đăng nhập Database') {
             steps {
-                echo 'Đóng gói và kiểm thử code thành công!'
+                echo 'Đang kết nối vào hệ thống tối mật...'
+                
+                // CỐ TÌNH LỘ MẬT KHẨU: Chúng ta thử in thẳng mật khẩu ra màn hình xem sao!
+                echo "Mật khẩu được cấp là: ${PASSWORD_DB}"
             }
-        }
-        
-        stage('Deploy - Triển khai') {
-            steps {
-                echo "Chú ý: Đang bắt đầu triển khai hệ thống lên môi trường ${params.MOI_TRUONG} !!!"
-            }
-        }
-    }
-    
-    // KHỐI POST: Xử lý báo cáo sau khi chạy xong
-    post {
-        always {
-            echo '🧹 Đang dọn dẹp chiến trường... (Bước này luôn chạy)'
-        }
-        success {
-            echo "✅ BÁO CÁO: Tuyệt vời! Đã triển khai thành công mỹ mãn lên môi trường ${params.MOI_TRUONG}!"
-        }
-        failure {
-            echo "❌ CẢNH BÁO KHẨN: Quy trình thất bại! Đội kỹ thuật vào kiểm tra gấp!"
         }
     }
 }
