@@ -1,24 +1,22 @@
 pipeline {
-    agent any // Cho phép Jenkins chạy trên bất kỳ máy nào có sẵn
+    agent any 
+    
+    // Thêm khối parameters để tạo menu lựa chọn
+    parameters {
+        choice(name: 'MOI_TRUONG', choices: ['DEV', 'PRODUCTION'], description: 'Bạn muốn triển khai lên đâu?')
+    }
     
     stages {
-        stage('Build - Đóng gói') {
+        stage('Build & Test') {
             steps {
-                echo 'Đang chuẩn bị môi trường và đóng gói code...'
-            }
-        }
-        
-        stage('Test - Kiểm thử') {
-            steps {
-                echo 'Đang chạy test để kiểm tra lỗi...'
-                // Chúng ta gọi lại lệnh đọc file ban nãy (dùng 'bat' cho Windows)
-                bat 'type hello.txt' 
+                echo 'Đóng gói và kiểm thử code thành công!'
             }
         }
         
         stage('Deploy - Triển khai') {
             steps {
-                echo 'Không có lỗi! Đang triển khai lên server thật...'
+                // Jenkins sẽ in ra biến MOI_TRUONG mà bạn chọn lúc bấm nút chạy
+                echo "Chú ý: Đang bắt đầu triển khai hệ thống lên môi trường ${params.MOI_TRUONG} !!!"
             }
         }
     }
