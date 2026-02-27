@@ -19,7 +19,7 @@ pipeline {
                 
                 echo 'Đang khởi chạy Website mới...'
                 // Chạy container ngầm (-d), mở cổng 8080 (-p), và đặt tên là "cho-bang-container"
-                bat 'docker run -d -p 8080:80 --name cho-bang-container cho-bang-website:latest'
+                bat 'docker run -d -p 8888:80 --name cho-bang-container cho-bang-website:latest'
             }
         }
     }
