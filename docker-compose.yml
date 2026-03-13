@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  web-cho-bang:
+    build: .
+    image: cho-bang-website:latest
+    container_name: cho-bang-container-compose
+    ports:
+      - "8888:80"
