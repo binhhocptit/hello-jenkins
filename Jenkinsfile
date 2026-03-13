@@ -2,24 +2,21 @@ pipeline {
     agent any 
     
     stages {
-        stage('Build - Đóng gói Trang Web') {
+        stage('Test - Kiểm tra mã nguồn') {
             steps {
-                echo 'Đang nhét trang web vào thùng container...'
-                // Lệnh này đọc Dockerfile và nặn ra một cái container tên là "cho-bang-website"
-                bat 'docker build -t cho-bang-website:latest .'
+                echo 'Đang rà soát lỗi cấu trúc HTML...'
+                // Kiểm tra xem file index.html có chứa thẻ <h1> không. Nếu không có, đánh sập hệ thống ngay!
+                bat 'findstr /C:"<h1>" index.html'
+                
+                echo 'Kiểm tra hoàn tất: Mã nguồn an toàn, không có lỗi ngớ ngẩn!'
             }
         }
         
-        stage('Deploy - Triển khai lên mạng') {
+        stage('Deploy bằng Docker Compose') {
             steps {
-                echo 'Đang dọn dẹp hệ thống cũ (nếu có)...'
-                // Xóa container cũ đi để lấy chỗ chạy container mới (tránh lỗi trùng lặp)
-                // Lệnh '|| exit 0' để bảo Jenkins đừng báo lỗi nếu đây là lần chạy đầu tiên chưa có container nào
-                bat 'docker rm -f cho-bang-container || exit 0' 
-                
-                echo 'Đang khởi chạy Website mới...'
-                // Chạy container ngầm (-d), mở cổng 8080 (-p), và đặt tên là "cho-bang-container"
-                bat 'docker run -d -p 8888:80 --name cho-bang-container cho-bang-website:latest'
+                echo 'Đang dùng siêu vũ khí Docker Compose...'
+                // Lệnh này tự động: Đọc bản thiết kế -> Build Image -> Xóa web cũ -> Bật web mới
+                bat 'docker compose up -d --build'
             }
         }
     }
@@ -27,8 +24,8 @@ pipeline {
     post {
         success {
             echo '==================================================='
-            echo '✅ DEPLOY THÀNH CÔNG RỰC RỠ!'
-            echo '🌐 Hãy mở trình duyệt và truy cập: http://localhost:8080'
+            echo '✅ XUẤT SẮC! HỆ THỐNG VƯỢT QUA BÀI TEST VÀ DEPLOY THÀNH CÔNG!'
+            echo '🌐 Truy cập ngay: http://localhost:8888'
             echo '==================================================='
         }
     }
